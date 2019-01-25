@@ -22,6 +22,7 @@ import os
 import json
 import modeling
 import tokenization
+import tokenization_sentencepiece as tokenization_jp
 import numpy as np
 import tensorflow as tf
 
@@ -92,6 +93,9 @@ tf.flags.DEFINE_string("master", None, "[Optional] TensorFlow master URL.")
 flags.DEFINE_integer(
     "num_tpu_cores", 8,
     "Only used if `use_tpu` is True. Total number of TPU cores to use.")
+
+  
+flags.DEFINE_bool("jp_tokenizer", False, "Use JP Tokenizer")
 
 
 class InputExample(object):
@@ -313,8 +317,15 @@ def convert_examples_to_features(examples, max_seq_length, tokenizer):
 
   return all_features, all_tokens
 
-tokenizer = tokenization.FullTokenizer(
-  vocab_file=FLAGS.vocab_file, do_lower_case=FLAGS.do_lower_case)
+if FLAGS.jp_tokenizer:
+  tokenizer = tokenization_jp.FullTokenizer(
+      model_file="./models/jp_model/wiki-ja.model",
+      vocab_file="./models/jp_model/wiki-ja.vocab",
+      do_lower_case=True)
+else:
+  tokenizer = tokenization.FullTokenizer(
+    vocab_file=FLAGS.vocab_file, do_lower_case=FLAGS.do_lower_case)
+
 MASKED_TOKEN = "[MASK]"
 MASKED_ID = tokenizer.convert_tokens_to_ids([MASKED_TOKEN])[0]
 
