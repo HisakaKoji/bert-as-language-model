@@ -1,4 +1,15 @@
+### environment
+
+bert-as-language-model]# ls model
+bert_config.json                              model_model.ckpt-1400000.index  wiki-ja.model
+model_model.ckpt-1400000.data-00000-of-00001  model_model.ckpt-1400000.meta   wiki-ja.vocab
+
+実行
+sh run_check.sh
+
+
 ## BERT as Language Model
+
 
 
 For a sentence <!-- S = w_1, w_2,..., w_k --> ![](https://user-images.githubusercontent.com/13825126/51437437-6d600100-1cd9-11e9-993a-c119186c5f6e.gif), we have
